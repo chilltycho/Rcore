@@ -6,9 +6,9 @@ authors = ["chilltycho <chilltycho@gmail.com>"]
 edition = "2018"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
-#设置程序panic时不做任何清理，直接退出程序
-[profile.dev]
-panic="abort"
+#设置程序panic时不做任何清理，直接退出程序,设定编译平台为riscv64后默认abort
+#[profile.dev]
+#panic="abort"
 
 [profile.release]
 panic="abort"
