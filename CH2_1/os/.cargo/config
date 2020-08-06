@@ -1,0 +1,8 @@
+#编译选项
+[build]#目标平台riscv64
+target = "riscv64imac-unknown-none-elf"
+
+[target.riscv64imac-unknown-none-elf]#使用链接脚本
+rustflags=[
+    "-C","link-arg=-Tsrc/boot/linker64.ld",
+]

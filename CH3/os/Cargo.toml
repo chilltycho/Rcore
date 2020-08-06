@@ -1,0 +1,17 @@
+#项目配置文件
+[package]
+name = "os"
+version = "0.1.0"
+authors = ["chilltycho <chilltycho@gmail.com>"]
+edition = "2018"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+#设置程序panic时不做任何清理，直接退出程序
+[profile.dev]
+panic="abort"
+
+[profile.release]
+panic="abort"
+
+[dependencies]
+riscv = { git = "https://github.com/chilltycho/riscv ", features = ["inline-asm"] }
