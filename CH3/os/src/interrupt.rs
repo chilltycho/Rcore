@@ -8,10 +8,10 @@ use riscv::register::{
 
 pub fn init() {
     unsafe {
-        sscratch::write(0);
+        sscratch::write(0);//上下文环境保存与恢复
         //设置stvec为direct，直接跳转到trap_handler
         stvec::write(trap_handler as usize, stvec::TrapMode::Direct);
-        sstatus::set_sie();
+        //sstatus::set_sie();
     }
     println!("++++ setup interrupt! ++++");
 }
