@@ -1,0 +1,1 @@
+/home/lic/文档/C/Rcore/CH2_1/os/target/riscv64imac-unknown-none-elf/debug/os: /home/lic/文档/C/Rcore/CH2_1/os/src/boot/entry64.asm /home/lic/文档/C/Rcore/CH2_1/os/src/init.rs /home/lic/文档/C/Rcore/CH2_1/os/src/io.rs /home/lic/文档/C/Rcore/CH2_1/os/src/lang_items.rs /home/lic/文档/C/Rcore/CH2_1/os/src/lib.rs /home/lic/文档/C/Rcore/CH2_1/os/src/main.rs /home/lic/文档/C/Rcore/CH2_1/os/src/sbi.rs

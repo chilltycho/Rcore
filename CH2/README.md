@@ -4,6 +4,7 @@
 安装Rust，默认编译后可知性文件平台，利用rustc --version --verbose查看默认目标三元组
 riscv64目标三元组：riscv64imac-unknown-none-elf
 用命令cargo build --target riscv64imac-unknown-none-elf使对riscv64平台编译，编译结果见target/riscv64imac../debug
+由于riscv64默认panic为abort，可将Cargo.toml中相关设置删去
 
 `rust-objcopy target/riscv64imac-unknown-none-elf/debug/os --strip-all -O binary target/riscv64imac-unknown-none-elf/debug/kernel.bin` 将os文件(elf)转换为内核镜像kernel.bin，丢弃所有符号表及调试信息
 
@@ -18,4 +19,6 @@ riscv64目标三元组：riscv64imac-unknown-none-elf
 stack栈
 heap堆，程序运行过程中内存的动态分配
 
-C runtime入口点_start,希望它设置内核运行环境(kernel runtime)再开始执行内核的代码。OpenSBI固件实现了bootloader，从Machine模式切换到S模式，再跳转到固定地址0x80200000，开始执行内核代码
+C runtime入口点_start,希望它设置内核运行环境(kernel runtime)再开始执行内核的代码。OpenSBI固件实现了bootloader，从Machine模式切换到S模式，再跳转到固定地址0x80200000，开始执行内核代码。见boot/entry64.asm
+
+这部分不能使用新版本rust，不然初始位置不为0x80200000
