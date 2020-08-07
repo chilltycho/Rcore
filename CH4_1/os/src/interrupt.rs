@@ -26,37 +26,33 @@ pub fn init() {
         }        
         sscratch::write(0);
         stvec::write(__alltraps as usize, stvec::TrapMode::Direct);
-        //设置sstatus的SIE位
-	    sstatus::set_sie();
+
+	sstatus::set_sie();
     }
     println!("++++ setup interrupt! ++++");
 }
 
 #[no_mangle]
 pub fn rust_trap(tf: &mut TrapFrame) {
-    //根据中断原因分类讨论
     match tf.scause.cause() {
-        //断点中断
         Trap::Exception(Exception::Breakpoint) => breakpoint(&mut tf.sepc),
-        //S态时钟中断
         Trap::Interrupt(Interrupt::SupervisorTimer) => super_timer(),
         _ => panic!("undefined trap!")
     }
 }
-//断点中断处理：输出断点地址并改变中断返回地址防止死循环
+
 fn breakpoint(sepc: &mut usize) {
     println!("a breakpoint set @0x{:x}", sepc);
     *sepc += 2;
 }
-//S态时钟中断处理
+
 fn super_timer() {
-    clock_set_next_event();//设置下次时钟中断触发时间
+    clock_set_next_event();
     unsafe {
-        TICKS += 1;//更新时钟中断触发计数
+        TICKS += 1;
         if TICKS == 100 {
             TICKS = 0;
             println!("* 100 ticks *");
         }
     }
-    // 发生外界中断时，epc 指向的指令没有完成执行，因此这里不需要修改 epc
 }

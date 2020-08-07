@@ -1,17 +1,17 @@
-# 常量，每个寄存器占的字节数，64位，8字节
+#常量，每个寄存器占的字节数，64位，8字节
 .equ XLENB, 8
 
-# 将地址sp+8*a2处的值load到寄存器a1内
+#将地址sp+8*a2处的值load到寄存器a1内
 .macro LOAD a1, a2
 	ld \a1, \a2*XLENB(sp)
 .endm
 
-# 将寄存器a1内的值store到地址sp+8*a2内
+#将寄存器a1内的值store到地址sp+8*a2内
 .macro STORE a1, a2
 	sd \a1, \a2*XLENB(sp)
 .endm
 
-# 将整个TrapFrame保存在内核栈上。现在处在内核态(S态)，故sp指向内核栈栈地址
+#将整个TrapFrame保存在内核栈上。现在处在内核态(S态)，故sp指向内核栈栈地址
 .macro SAVE_ALL
     #原子操作交换sp,sscratch
     # 实际上是将右侧寄存器的值写入中间 csr
@@ -33,7 +33,7 @@
 trap_from_kernel:
 	csrr sp, sscratch
 trap_from_user:
-    # 提前分配栈帧
+    #提前分配栈帧
 	addi sp, sp, -36*XLENB
     # 按照地址递增的顺序，保存除x0, x2之外的通用寄存器
     # x0 恒为 0 不必保存
@@ -78,9 +78,9 @@ trap_from_user:
 	csrr s2, sepc
 	csrr s3, stval
 	csrr s4, scause
-	# 将s0保存在栈上
+	#将s0保存在栈上
 	STORE s0, 2
-    # 将 s1,s2,s3,s4 保存在栈上
+    #将 s1,s2,s3,s4 保存在栈上
 	STORE s1, 32
 	STORE s2, 33
 	STORE s3, 34
@@ -88,9 +88,9 @@ trap_from_user:
 .endm
 
 .macro RESTORE_ALL
-    # s1=sstatus
+    #s1=sstatus
 	LOAD s1, 32
-    # s2=sepc
+    #s2=sepc
 	LOAD s2, 33
     # 我们可以通过另一种方式判断是从内核态还是用户态进入中断
     # 如果从内核态进入中断， sstatus 的 SPP 位被硬件设为 1
@@ -151,14 +151,14 @@ _to_kernel:
 .endm
 
 	.section .text
-	.globl __alltraps # 设置_alltraps所有中断程序入口
+	.globl __alltraps #设置_alltraps所有中断程序入口
     .align 4
 __alltraps:
-	SAVE_ALL # 保存上下文环境
-	mv a0, sp   # riscv规定a0保存函数输入的第一个函数
+	SAVE_ALL #保存上下文环境
+	mv a0, sp   #riscv规定a0保存函数输入的第一个函数
 	jal rust_trap
 
 	.globl __trapret
 __trapret:
 	RESTORE_ALL #恢复上下文环境
-	sret    # 跳转到sepc指向的地址，即回到触发中断那条指令所在地址。导致触发中断的那条指令又被执行一次
+	sret    #跳转到sepc指向的地址，即回到触发中断那条指令所在地址。导致触发中断的那条指令又被执行一次

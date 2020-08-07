@@ -12,6 +12,8 @@ panic="abort"
 
 [profile.release]
 panic="abort"
-#引入对寄存器操作的库
+
 [dependencies]
 riscv = { git = "https://github.com/chilltycho/riscv ", features = ["inline-asm"] }
+spin = "0.5.2"
+buddy_system_allocator = "0.3"
