@@ -2,7 +2,7 @@
 #![no_main]
 #![feature(global_asm)]
 #![feature(llvm_asm)]
-global_asm!(include_str!("boot/entry64.asm"));
+
 use core::panic::PanicInfo;
 
 #[panic_handler]
@@ -10,11 +10,7 @@ fn panic(_: &PanicInfo) -> ! {
     loop {}
 }
 
-#[no_mangle]
-extern "C" fn abort() -> ! {
-    panic!("abort!");
-}
-
+global_asm!(include_str!("boot/entry64.asm"));
 
 pub fn console_putchar(ch: u8) {
     let ret: usize;

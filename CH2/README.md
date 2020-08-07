@@ -20,5 +20,3 @@ stack栈
 heap堆，程序运行过程中内存的动态分配
 
 C runtime入口点_start,希望它设置内核运行环境(kernel runtime)再开始执行内核的代码。OpenSBI固件实现了bootloader，从Machine模式切换到S模式，再跳转到固定地址0x80200000，开始执行内核代码。见boot/entry64.asm
-
-这部分不能使用新版本rust，不然初始位置不为0x80200000
