@@ -2,7 +2,7 @@ use crate::consts::MAX_PHYSICAL_PAGES;
 use spin::Mutex;
 
 pub struct SegmentTreeAllocator {
-    a: [u8; MAX_PHYSICAL_PAGES << 1],
+    a: [u8; MAX_PHYSICAL_PAGES << 1],//数组，大小0x8000000>>11
     m: usize,
     n: usize,
     offset: usize
