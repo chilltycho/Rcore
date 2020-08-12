@@ -19,7 +19,7 @@ pub extern "C" fn rust_main() -> ! {
     );
     // You can uncomment below lines for testing effects of PageTable
     //write_readonly_test();
-    execute_unexecutable_test();
+    //execute_unexecutable_test();
     read_invalid_test();
 
     crate::timer::init();
